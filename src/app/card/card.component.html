@@ -10,8 +10,8 @@
     <div class="min-h-screen mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <!-- Your content -->
 
-        <div class="h-full isolate bg-gray-900 px-6 py-4 sm:py-6 lg:px-8">
-            <form class="mx-auto mt-16 max-w-xl sm:mt-20">
+        <div class="h-full isolate bg-gray-900 px-6 rounded-xl sm:py-6 lg:px-8">
+            <form class="mx-auto mt-8 max-w-xl sm:mt-10">
                 <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     <div class="sm:col-span-2 flex items-center justify-center gap-4  w-full">
                         <label for="length" class=" block text-sm/6 font-semibold text-white">LENGTH</label>
@@ -28,7 +28,7 @@
                                     class="size-4 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-3.5"></span>
                                 <input [checked]="linkLetters()" id="useLetters" type="checkbox" name="useLetters" (change)="onClickLetters()"
                                     aria-label="useLetters"
-                                    class="absolute inset-0 size-full appearance-none focus:outline-hidden" />
+                                    class="absolute cursor-pointer inset-0 size-full appearance-none focus:outline-hidden" />
                             </div>
                         </div>
                         <label for="useLetters" class="text-sm/6 text-gray-400">
@@ -43,7 +43,7 @@
                                     class="size-4 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-3.5"></span>
                                 <input [checked]="linkNumbers()" id="useNumbers" type="checkbox" name="useNumbers" (change)="onClickNumbers()"
                                     aria-label="useNumbers"
-                                    class="absolute inset-0 size-full appearance-none focus:outline-hidden" />
+                                    class="absolute cursor-pointer inset-0 size-full appearance-none focus:outline-hidden" />
                             </div>
                         </div>
                         <label for="useNumbers" class="text-sm/6 text-gray-400">
@@ -58,7 +58,7 @@
                                     class="size-4 rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition-transform duration-200 ease-in-out group-has-checked:translate-x-3.5"></span>
                                 <input [checked]="linkSymbols()" id="useSymbols" type="checkbox" name="useSymbols" (change)="onClickSymbols()"
                                     aria-label="useSymbols"
-                                    class="absolute inset-0 size-full appearance-none focus:outline-hidden" />
+                                    class="absolute cursor-pointer inset-0 size-full appearance-none focus:outline-hidden" />
                             </div>
                         </div>
                         <label for="useSymbols" class="text-sm/6 text-gray-400">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="mt-10">
                     <button [disabled]="!(length() && (linkLetters() || linkNumbers() || linkSymbols()))" (click)="onButtonClick()" type="button"
-                        class="block w-full rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                        class="block w-full cursor-pointer rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                         Generate!
                     </button>
                 </div>

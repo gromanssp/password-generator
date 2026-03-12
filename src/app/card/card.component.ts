@@ -4,7 +4,6 @@ import { CardAlertComponent } from "../card-alert/card-alert.component";
 
 @Component({
   selector: 'app-card',
-  imports: [CardAlertComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
