@@ -1,0 +1,74 @@
+.section-container { animation: fadeIn 0.3s ease-out; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; }
+.showcase-card { padding: 1.5rem; }
+.card-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+.demo-area { margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.code-snippet { background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); padding: 1rem; overflow-x: auto; }
+.code-snippet code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--success); white-space: pre; }
+
+.demo-card {
+  padding: 1.25rem;
+}
+.demo-card.no-padding { padding: 0; }
+
+.demo-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.demo-card-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.demo-card-header {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--glass-border);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--accent-primary);
+}
+.demo-card-body {
+  padding: 1.25rem;
+}
+.demo-card-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.demo-card-image {
+  height: 140px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary, #9333ea));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.image-placeholder-text {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+}
+.demo-card-image-side {
+  width: 120px;
+  min-height: 120px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary, #9333ea));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  flex-shrink: 0;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) { .components-grid { grid-template-columns: 1fr; } }

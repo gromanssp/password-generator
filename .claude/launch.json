@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Angular Dev Server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "port": 4200
+    },
+    {
+      "name": "Angular SSR Server",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["dist/password-generator/server/server.mjs"],
+      "port": 4000
+    },
+    {
+      "name": "Karma Test Runner",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
+      "port": 9876
+    }
+  ]
+}

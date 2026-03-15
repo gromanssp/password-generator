@@ -1,13 +1,12 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ToogleSignalService } from '../toogle-signal.service';
-import { CardAlertComponent } from "../card-alert/card-alert.component";
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss'
+  selector: 'app-cards-section',
+  templateUrl: './cards-section.component.html',
+  styleUrl: './cards-section.component.css'
 })
-export class CardComponent {
+export class CardsSectionComponent {
   length = signal(0);
   linkSymbols = signal(false);
   linkNumbers = signal(false);
@@ -17,21 +16,17 @@ export class CardComponent {
   
   onClickSymbols(){
     this.linkSymbols.set(!this.linkSymbols());
-    console.log('Simbols: ' + this.linkSymbols());
   }
   onClickNumbers(){
     this.linkNumbers.set(!this.linkNumbers());
-    console.log('Numbers: ' + this.linkNumbers());
   }
   onClickLetters(){
     this.linkLetters.set(!this.linkLetters());
-    console.log('Letters: ' + this.linkLetters());
   }
   onChangeLength( evento: any){
     const parsedValue = parseInt(evento.target.value);
     if(!isNaN(parsedValue)){
-      this.length.update((u) => u = parsedValue);
-      console.log('length: ' + this.length());
+      this.length.set(parsedValue);
     }
   }
 
@@ -55,7 +50,6 @@ export class CardComponent {
       () => validChars[Math.floor(Math.random() * validChars.length)]
     ).join('');
     
-    console.log(`Password generated: ${generatePassword}`);
     this.toogleService.open(generatePassword);
   }
 }

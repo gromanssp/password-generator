@@ -1,0 +1,65 @@
+<div class="section-container">
+  <h2 class="heading-3 mb-4 mt-10 text-center uppercase">Password Generator</h2>
+
+  <div class="components-grid">
+    <div class="glass-panel showcase-card">
+      <h3 class="card-title"></h3>
+      <div class="demo-area" style="flex-direction: column; align-items: stretch">
+        <div class="glass-panel demo-card no-padding">
+          <div class="demo-card-header">
+            <p class="text-body mb-4 ml-6">
+              Allows you to quickly create secure and unique passwords.
+              You can customize the length and character types (letters, numbers, and
+              symbols) to generate stronger passwords and better protect your online
+              accounts. 🔐
+            </p>
+          </div>
+          <div class="demo-card-body">
+            <div class="components-grid">
+              <div class="glass-panel showcase-card">
+                <h3 class="card-title">Password length</h3>
+                <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+                  <div class="form-group">
+                    <label class="form-label">Type number</label>
+                    <input type="number" class="form-control" placeholder="Enter password length in number"
+                      (input)="onChangeLength($event)">
+                  </div>
+                </div>
+              </div>
+              <div class="glass-panel showcase-card">
+                <h3 class="card-title">Complexity</h3>
+                <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+                  <div class="form-check">
+                    <input [checked]="linkLetters()" type="checkbox" class="form-check-input" id="check1"
+                      (change)="onClickLetters()">
+                    <label class="form-check-label" for="check1">Use Letters</label>
+                  </div>
+                  <div class="form-check">
+                    <input [checked]="linkNumbers()" type="checkbox" class="form-check-input" id="check2"
+                      (change)="onClickNumbers()">
+                    <label class="form-check-label" for="check2">Use Numbers</label>
+                  </div>
+                  <div class="form-check">
+                    <input [checked]="linkSymbols()" type="checkbox" class="form-check-input" id="check3"
+                      (change)="onClickSymbols()">
+                    <label class="form-check-label" for="check3">Use Symbols</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Text Inputs -->
+          </div>
+          <div class="demo-card-footer">
+            <button type="button" (click)="onButtonClick()" class="btn btn-primary btn-xl w-full"
+              [disabled]="!(length() && (linkLetters() || linkNumbers() || linkSymbols()))">Generate!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="demo-card-footer">
+    <p class="text-body mb-4 ml-6">
+      ing. JG
+    </p>
+  </div>
+</div>

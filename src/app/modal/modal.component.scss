@@ -1,0 +1,160 @@
+// ── Backdrop ────────────────────────────────────────────────────────────────
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  animation: backdropFadeIn 0.2s ease-out;
+}
+
+// ── Dialog ───────────────────────────────────────────────────────────────────
+.modal-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 2rem);
+  background: var(--bg-secondary, #1e2330);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: dialogSlideIn 0.25s ease-out;
+
+  // Size variants
+  &.modal-sm { max-width: 380px; }
+  &.modal-md { max-width: 520px; }
+  &.modal-lg { max-width: 720px; }
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary, #f1f5f9);
+  letter-spacing: 0.01em;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-secondary, #94a3b8);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary, #f1f5f9);
+  }
+}
+
+// ── Body ─────────────────────────────────────────────────────────────────────
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-primary, #f1f5f9);
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+.modal-footer {
+  padding: 0.75rem 1.5rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-shrink: 0;
+
+  &:empty { display: none; }
+}
+
+// ── Utility classes used inside modal content ────────────────────────────────
+.modal-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #94a3b8);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  justify-content: flex-end;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-inner-card { padding: 1rem; }
+
+.modal-inner-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary, #f1f5f9);
+  margin-bottom: 0.5rem;
+}
+
+// ── Animations ───────────────────────────────────────────────────────────────
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dialogSlideIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)     scale(1);    }
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: calc(100vw - 2rem) !important;
+    margin: 1rem;
+  }
+
+  .modal-grid { grid-template-columns: 1fr; }
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: #00d8ff;
+}
