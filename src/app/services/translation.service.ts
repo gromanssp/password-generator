@@ -16,6 +16,7 @@ const EN: Translations = {
     passphrase: 'Passphrase',
     history: 'History',
     dashboard: 'Dashboard',
+    about: 'About',
     allDataStoredLocally: 'All data stored locally',
     secure: 'Secure',
     passwordSecurityPlatform: 'Password Security Platform',
@@ -133,6 +134,64 @@ const EN: Translations = {
       title: 'Hacking Simulation',
       desc: 'Experience how hackers crack passwords with real-world attack simulations',
       placeholder: 'Enter a password to simulate attacks...',
+    },
+    about: {
+      hero: {
+        title: 'About SecureGen',
+        desc: 'Everything you need to know about your password security platform',
+      },
+      featuresTitle: 'Features',
+      feature: {
+        generator: {
+          title: 'Password Generator',
+          desc: 'Generate secure passwords for any context with customizable settings',
+          items: '7 preconfigured contexts · Customizable length & charset · crypto.getRandomValues()',
+        },
+        strength: {
+          title: 'Strength Analyzer',
+          desc: 'Detailed analysis with entropy, crack time estimates, and weakness detection',
+          items: 'Score 0–100 · 4 attack vectors · 19 common password checks',
+        },
+        passphrase: {
+          title: 'Passphrase Generator',
+          desc: 'Create memorable yet secure passphrases from random word combinations',
+          items: '88 unique words · Custom separators · Capitalization & numbers',
+        },
+        hackingSim: {
+          title: 'Hacking Simulation',
+          desc: 'Educational tool showing how hackers crack passwords in real scenarios',
+          items: '4 attack simulations · Color-coded results · Real-time analysis',
+        },
+        history: {
+          title: 'Password History',
+          desc: 'All your generated passwords stored locally with AES-GCM encryption',
+          items: 'Encrypted storage · Favorites & search · 50 entry limit',
+        },
+        dashboard: {
+          title: 'Security Dashboard',
+          desc: 'Overview of your password health with actionable security insights',
+          items: 'Health score ring · Strength distribution · MFA status guide',
+        },
+      },
+      techTitle: 'Technology',
+      tech: {
+        encryption: {
+          title: 'AES-GCM Encryption',
+          desc: '256-bit encryption for all stored passwords. Your key never leaves your device.',
+        },
+        i18n: {
+          title: '5 Languages',
+          desc: 'Fully translated interface in English, Spanish, French, Italian, and Hindi.',
+        },
+        theme: {
+          title: 'Light & Dark Themes',
+          desc: 'Automatic system preference detection with manual toggle and persistent choice.',
+        },
+        privacy: {
+          title: 'Privacy First',
+          desc: 'No servers, no tracking, no cookies. CSP protects against data exfiltration.',
+        },
+      },
     },
   },
   legal: {

@@ -5,6 +5,7 @@
     "passphrase": "Frase d'accesso",
     "history": "Cronologia",
     "dashboard": "Pannello",
+    "about": "Informazioni",
     "hackSim": "Sim. hacking",
     "allDataStoredLocally": "Tutti i dati memorizzati localmente",
     "secure": "Sicuro",
@@ -134,6 +135,64 @@
       "weak": "Debole",
       "medium": "Medio",
       "strong": "Forte"
+    },
+    "about": {
+      "hero": {
+        "title": "Informazioni su SecureGen",
+        "desc": "Tutto ciò che devi sapere sulla tua piattaforma di sicurezza delle password"
+      },
+      "featuresTitle": "Caratteristiche",
+      "feature": {
+        "generator": {
+          "title": "Generatore di Password",
+          "desc": "Genera password sicure per qualsiasi contesto con impostazioni personalizzabili",
+          "items": "7 contesti preconfigurati · Lunghezza e set di caratteri personalizzabili · crypto.getRandomValues()"
+        },
+        "strength": {
+          "title": "Analizzatore di Robustezza",
+          "desc": "Analisi dettagliata con entropia, stime del tempo di decifratura e rilevamento delle debolezze",
+          "items": "Punteggio 0–100 · 4 vettori di attacco · 19 controlli password comuni"
+        },
+        "passphrase": {
+          "title": "Generatore di Frasi d'Accesso",
+          "desc": "Crea frasi d'accesso memorabili ma sicure da combinazioni di parole casuali",
+          "items": "88 parole uniche · Separatori personalizzati · Maiuscole e numeri"
+        },
+        "hackingSim": {
+          "title": "Simulazione di Hacking",
+          "desc": "Strumento educativo che mostra come gli hacker decifrano le password in scenari reali",
+          "items": "4 simulazioni di attacco · Risultati con codice colore · Analisi in tempo reale"
+        },
+        "history": {
+          "title": "Cronologia Password",
+          "desc": "Tutte le tue password generate memorizzate localmente con crittografia AES-GCM",
+          "items": "Archivio crittografato · Preferiti e ricerca · Limite di 50 voci"
+        },
+        "dashboard": {
+          "title": "Pannello di Sicurezza",
+          "desc": "Panoramica della salute delle tue password con approfondimenti di sicurezza attuabili",
+          "items": "Anello del punteggio di salute · Distribuzione della robustezza · Guida stato MFA"
+        }
+      },
+      "techTitle": "Tecnologia",
+      "tech": {
+        "encryption": {
+          "title": "Crittografia AES-GCM",
+          "desc": "Crittografia a 256 bit per tutte le password memorizzate. La tua chiave non lascia mai il tuo dispositivo."
+        },
+        "i18n": {
+          "title": "5 Lingue",
+          "desc": "Interfaccia completamente tradotta in inglese, spagnolo, francese, italiano e hindi."
+        },
+        "theme": {
+          "title": "Temi Chiaro e Scuro",
+          "desc": "Rilevamento automatico delle preferenze di sistema con commutazione manuale e scelta persistente."
+        },
+        "privacy": {
+          "title": "Privacy Prima",
+          "desc": "Niente server, niente tracciamento, niente cookie. CSP protegge contro l'esfiltrazione dei dati."
+        }
+      }
     }
   },
   "common": {

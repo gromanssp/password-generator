@@ -5,6 +5,7 @@
     "passphrase": "Phrase de passe",
     "history": "Historique",
     "dashboard": "Tableau de bord",
+    "about": "À propos",
     "hackSim": "Simulation de piratage",
     "allDataStoredLocally": "Toutes les données stockées localement",
     "secure": "Sécurisé",
@@ -134,6 +135,64 @@
       "weak": "Faible",
       "medium": "Moyen",
       "strong": "Fort"
+    },
+    "about": {
+      "hero": {
+        "title": "À propos de SecureGen",
+        "desc": "Tout ce que vous devez savoir sur votre plateforme de sécurité des mots de passe"
+      },
+      "featuresTitle": "Fonctionnalités",
+      "feature": {
+        "generator": {
+          "title": "Générateur de Mots de Passe",
+          "desc": "Générez des mots de passe sécurisés pour tout contexte avec des paramètres personnalisables",
+          "items": "7 contextes préconfigurés · Longueur et jeu de caractères personnalisables · crypto.getRandomValues()"
+        },
+        "strength": {
+          "title": "Analyseur de Robustesse",
+          "desc": "Analyse détaillée avec entropie, estimations de temps de craquage et détection des faiblesses",
+          "items": "Score 0–100 · 4 vecteurs d'attaque · 19 vérifications de mots de passe courants"
+        },
+        "passphrase": {
+          "title": "Générateur de Phrases de Passe",
+          "desc": "Créez des phrases de passe mémorables mais sécurisées à partir de combinaisons aléatoires",
+          "items": "88 mots uniques · Séparateurs personnalisés · Majuscules et nombres"
+        },
+        "hackingSim": {
+          "title": "Simulation de Piratage",
+          "desc": "Outil éducatif montrant comment les hackers craquent les mots de passe dans des scénarios réels",
+          "items": "4 simulations d'attaque · Résultats codés par couleur · Analyse en temps réel"
+        },
+        "history": {
+          "title": "Historique des Mots de Passe",
+          "desc": "Tous vos mots de passe générés stockés localement avec chiffrement AES-GCM",
+          "items": "Stockage chiffré · Favoris et recherche · Limite de 50 entrées"
+        },
+        "dashboard": {
+          "title": "Tableau de Bord de Sécurité",
+          "desc": "Aperçu de la santé de vos mots de passe avec des conseils de sécurité exploitables",
+          "items": "Anneau de score de santé · Distribution de robustesse · Guide d'état MFA"
+        }
+      },
+      "techTitle": "Technologie",
+      "tech": {
+        "encryption": {
+          "title": "Chiffrement AES-GCM",
+          "desc": "Chiffrement 256 bits pour tous les mots de passe stockés. Votre clé ne quitte jamais votre appareil."
+        },
+        "i18n": {
+          "title": "5 Langues",
+          "desc": "Interface entièrement traduite en anglais, espagnol, français, italien et hindi."
+        },
+        "theme": {
+          "title": "Thèmes Clair et Sombre",
+          "desc": "Détection automatique des préférences système avec basculement manuel et choix persistant."
+        },
+        "privacy": {
+          "title": "Confidentialité Avant Tout",
+          "desc": "Pas de serveurs, pas de suivi, pas de cookies. CSP protège contre l'exfiltration de données."
+        }
+      }
     }
   },
   "common": {

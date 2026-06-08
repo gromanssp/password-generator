@@ -54,6 +54,10 @@ import { TranslatePipe } from '../shared/pipes/translate.pipe';
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>{{ 'nav.dashboard' | translate }}</span>
           </a>
+          <a routerLink="/about" routerLinkActive="active" class="nav-item" (click)="sidebarOpen.set(false)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ 'nav.about' | translate }}</span>
+          </a>
         </nav>
         <div class="sidebar-footer">
           <div class="legal-links">

@@ -5,6 +5,7 @@
     "passphrase": "Frase de contraseña",
     "history": "Historial",
     "dashboard": "Panel",
+    "about": "Acerca de",
     "hackSim": "Simulador de hackeo",
     "allDataStoredLocally": "Todos los datos almacenados localmente",
     "secure": "Seguro",
@@ -134,6 +135,64 @@
       "weak": "Débil",
       "medium": "Medio",
       "strong": "Fuerte"
+    },
+    "about": {
+      "hero": {
+        "title": "Acerca de SecureGen",
+        "desc": "Todo lo que necesitas saber sobre tu plataforma de seguridad de contraseñas"
+      },
+      "featuresTitle": "Funcionalidades",
+      "feature": {
+        "generator": {
+          "title": "Generador de Contraseñas",
+          "desc": "Genera contraseñas seguras para cualquier contexto con ajustes personalizables",
+          "items": "7 contextos preconfigurados · Longitud y juego de caracteres ajustables · crypto.getRandomValues()"
+        },
+        "strength": {
+          "title": "Analizador de Fortaleza",
+          "desc": "Análisis detallado con entropía, estimaciones de tiempo de descifrado y detección de debilidades",
+          "items": "Puntuación 0–100 · 4 vectores de ataque · 19 comprobaciones de contraseñas comunes"
+        },
+        "passphrase": {
+          "title": "Generador de Frases",
+          "desc": "Crea frases de contraseña memorables pero seguras a partir de combinaciones aleatorias",
+          "items": "88 palabras únicas · Separadores personalizados · Mayúsculas y números"
+        },
+        "hackingSim": {
+          "title": "Simulación de Hacking",
+          "desc": "Herramienta educativa que muestra cómo los hackers descifran contraseñas en escenarios reales",
+          "items": "4 simulaciones de ataque · Resultados codificados por colores · Análisis en tiempo real"
+        },
+        "history": {
+          "title": "Historial de Contraseñas",
+          "desc": "Todas tus contraseñas generadas se almacenan localmente con cifrado AES-GCM",
+          "items": "Almacenamiento cifrado · Favoritos y búsqueda · Límite de 50 entradas"
+        },
+        "dashboard": {
+          "title": "Panel de Seguridad",
+          "desc": "Resumen de la salud de tus contraseñas con información de seguridad procesable",
+          "items": "Anillo de puntuación de salud · Distribución de fortaleza · Guía de estado MFA"
+        }
+      },
+      "techTitle": "Tecnología",
+      "tech": {
+        "encryption": {
+          "title": "Cifrado AES-GCM",
+          "desc": "Cifrado de 256 bits para todas las contraseñas almacenadas. Tu clave nunca sale de tu dispositivo."
+        },
+        "i18n": {
+          "title": "5 Idiomas",
+          "desc": "Interfaz completamente traducida al inglés, español, francés, italiano e hindi."
+        },
+        "theme": {
+          "title": "Temas Claro y Oscuro",
+          "desc": "Detección automática de preferencia del sistema con cambio manual y elección persistente."
+        },
+        "privacy": {
+          "title": "Privacidad Primero",
+          "desc": "Sin servidores, sin seguimiento, sin cookies. CSP protege contra la exfiltración de datos."
+        }
+      }
     }
   },
   "common": {
