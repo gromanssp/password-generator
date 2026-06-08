@@ -1,4 +1,6 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { generateId } from '../utils/id';
+import { EncryptionService } from './encryption.service';
 
 export interface PasswordEntry {
   id: string;
@@ -12,53 +14,68 @@ export interface PasswordEntry {
 @Injectable({ providedIn: 'root' })
 export class HistoryService {
   private readonly STORAGE_KEY = 'pwd_history';
-  entries = signal<PasswordEntry[]>(this.load());
+  private readonly encryption = inject(EncryptionService);
+  entries = signal<PasswordEntry[]>([]);
 
   favorites = computed(() => this.entries().filter(e => e.favorite));
 
-  add(password: string, context: string, strength: number): void {
+  private initPromise: Promise<void> | null = null;
+
+  constructor() {
+    this.initPromise = this.load();
+  }
+
+  async add(password: string, context: string, strength: number): Promise<void> {
+    await this.initPromise;
     const entry: PasswordEntry = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       password,
       context,
       createdAt: new Date().toISOString(),
       strength,
-      favorite: false
+      favorite: false,
     };
     const updated = [entry, ...this.entries()].slice(0, 50);
     this.entries.set(updated);
-    this.save(updated);
+    await this.save(updated);
   }
 
-  toggleFavorite(id: string): void {
+  async toggleFavorite(id: string): Promise<void> {
+    await this.initPromise;
     const updated = this.entries().map(e =>
       e.id === id ? { ...e, favorite: !e.favorite } : e
     );
     this.entries.set(updated);
-    this.save(updated);
+    await this.save(updated);
   }
 
-  remove(id: string): void {
+  async remove(id: string): Promise<void> {
+    await this.initPromise;
     const updated = this.entries().filter(e => e.id !== id);
     this.entries.set(updated);
-    this.save(updated);
+    await this.save(updated);
   }
 
-  clear(): void {
+  async clear(): Promise<void> {
+    await this.initPromise;
     this.entries.set([]);
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  private load(): PasswordEntry[] {
+  private async load(): Promise<void> {
     try {
       const data = localStorage.getItem(this.STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
+      if (data) {
+        const decrypted = await this.encryption.decrypt(data);
+        this.entries.set(decrypted ? JSON.parse(decrypted) : []);
+      }
     } catch {
-      return [];
+      this.entries.set([]);
     }
   }
 
-  private save(entries: PasswordEntry[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(entries));
+  private async save(entries: PasswordEntry[]): Promise<void> {
+    const encrypted = await this.encryption.encrypt(JSON.stringify(entries));
+    localStorage.setItem(this.STORAGE_KEY, encrypted);
   }
 }

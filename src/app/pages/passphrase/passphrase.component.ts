@@ -4,28 +4,30 @@ import { PassphraseService, PassphraseConfig } from '../../services/passphrase.s
 import { StrengthService } from '../../services/strength.service';
 import { HistoryService } from '../../services/history.service';
 import { ToastService } from '../../services/toast.service';
+import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-passphrase',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   template: `
-    <div class="page-header">
-      <h2 class="page-title">Passphrase Generator</h2>
-      <p class="page-desc">Generate memorable yet secure passphrases using random word combinations</p>
+    <div class="page-header anim-page-enter">
+      <h2 class="page-title">{{ 'page.passphrase.title' | translate }}</h2>
+      <p class="page-desc">{{ 'page.passphrase.desc' | translate }}</p>
     </div>
 
     <div class="generator-layout">
       <div class="config-section">
         <div class="config-card">
           <div class="config-group">
-            <label>Word Count: <strong>{{ config().wordCount }}</strong></label>
+            <label>{{ 'page.passphrase.wordCount' | translate }} <strong>{{ config().wordCount }}</strong></label>
             <input type="range" [min]="3" [max]="8" [ngModel]="config().wordCount" (ngModelChange)="updateConfig('wordCount', $event)" class="range-input">
             <div class="range-labels"><span>3</span><span>8</span></div>
           </div>
 
           <div class="config-group">
-            <label>Separator</label>
+            <label>{{ 'page.passphrase.separator' | translate }}</label>
             <div class="separator-options">
               @for (sep of separators; track sep.value) {
                 <button
@@ -42,24 +44,24 @@ import { ToastService } from '../../services/toast.service';
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().capitalize" (ngModelChange)="updateConfig('capitalize', $event)">
               <span class="toggle-switch"></span>
-              <span>Capitalize Words</span>
+              <span>{{ 'page.passphrase.capitalizeWords' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().includeNumber" (ngModelChange)="updateConfig('includeNumber', $event)">
               <span class="toggle-switch"></span>
-              <span>Include Number</span>
+              <span>{{ 'page.passphrase.includeNumber' | translate }}</span>
             </label>
           </div>
 
           <button class="btn-generate" (click)="generate()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Generate Passphrase
+            {{ 'page.passphrase.generatePassphrase' | translate }}
           </button>
         </div>
 
         <div class="entropy-card">
           <div class="entropy-value">~{{ estimatedEntropy() }} bits</div>
-          <div class="entropy-label">Estimated Entropy</div>
+          <div class="entropy-label">{{ 'page.passphrase.estimatedEntropy' | translate }}</div>
         </div>
       </div>
 
@@ -70,40 +72,40 @@ import { ToastService } from '../../services/toast.service';
               <code>{{ passphrase() }}</code>
             </div>
             <div class="passphrase-meta">
-              <span class="meta-item">{{ passphrase().length }} characters</span>
+              <span class="meta-item">{{ passphrase().length }} {{ 'page.passphrase.characters' | translate }}</span>
               <span class="meta-dot"></span>
-              <span class="meta-item">{{ config().wordCount }} words</span>
+              <span class="meta-item">{{ config().wordCount }} {{ 'page.passphrase.words' | translate }}</span>
               <span class="meta-dot"></span>
               <span class="meta-item strength" [class]="strengthResult().level">{{ strengthResult().label }}</span>
             </div>
             <div class="passphrase-actions">
               <button class="action-btn" (click)="copy()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                Copy
+                {{ 'page.passphrase.copy' | translate }}
               </button>
               <button class="action-btn" (click)="generate()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Regenerate
+                {{ 'page.passphrase.regenerate' | translate }}
               </button>
               <button class="action-btn" (click)="save()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Save
+                {{ 'page.passphrase.save' | translate }}
               </button>
             </div>
           </div>
         } @else {
           <div class="empty-state">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p>Configure settings and click generate</p>
+            <p>{{ 'page.passphrase.emptyState' | translate }}</p>
           </div>
         }
 
         <div class="examples-card">
-          <h4>Example Formats</h4>
+          <h4>{{ 'page.passphrase.exampleFormats' | translate }}</h4>
           <div class="examples-list">
-            <div class="example-item"><code>river-coffee-tiger-mountain</code><span>Hyphen separated</span></div>
-            <div class="example-item"><code>Moon$Forest#Rocket!Cloud</code><span>Symbol separated + caps</span></div>
-            <div class="example-item"><code>coral.ember.frost.galaxy.42</code><span>Dot separated + number</span></div>
+            <div class="example-item"><code>river-coffee-tiger-mountain</code><span>{{ 'page.passphrase.hyphenSeparated' | translate }}</span></div>
+            <div class="example-item"><code>Moon$Forest#Rocket!Cloud</code><span>{{ 'page.passphrase.symbolSeparatedCaps' | translate }}</span></div>
+            <div class="example-item"><code>coral.ember.frost.galaxy.42</code><span>{{ 'page.passphrase.dotSeparatedNumber' | translate }}</span></div>
           </div>
         </div>
       </div>
@@ -116,7 +118,7 @@ import { ToastService } from '../../services/toast.service';
 
     .generator-layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 1fr;
       gap: 1.5rem;
       align-items: start;
     }
@@ -124,7 +126,7 @@ import { ToastService } from '../../services/toast.service';
     .config-card {
       padding: 1.5rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 14px;
       margin-bottom: 1rem;
     }
@@ -146,7 +148,7 @@ import { ToastService } from '../../services/toast.service';
       width: 100%;
       height: 6px;
       appearance: none;
-      background: rgba(255,255,255,0.1);
+      background: var(--border-color-strong);
       border-radius: 3px;
       outline: none;
       cursor: pointer;
@@ -167,8 +169,8 @@ import { ToastService } from '../../services/toast.service';
 
     .sep-btn {
       padding: 0.375rem 0.75rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color-strong);
       border-radius: 6px;
       color: var(--text-secondary);
       font-size: 0.8rem;
@@ -196,7 +198,7 @@ import { ToastService } from '../../services/toast.service';
     .toggle-switch {
       width: 36px;
       height: 20px;
-      background: rgba(255,255,255,0.1);
+      background: var(--border-color-strong);
       border-radius: 10px;
       position: relative;
       transition: background 0.2s;
@@ -242,7 +244,7 @@ import { ToastService } from '../../services/toast.service';
     .entropy-card {
       padding: 1rem 1.5rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       text-align: center;
     }
@@ -253,7 +255,7 @@ import { ToastService } from '../../services/toast.service';
     .passphrase-card {
       padding: 1.5rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 14px;
       margin-bottom: 1.5rem;
     }
@@ -294,8 +296,8 @@ import { ToastService } from '../../services/toast.service';
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color-strong);
       border-radius: 8px;
       color: var(--text-secondary);
       font-size: 0.8rem;
@@ -305,7 +307,7 @@ import { ToastService } from '../../services/toast.service';
       font-family: var(--font-family);
     }
 
-    .action-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+    .action-btn:hover { background: var(--hover-bg-strong); color: var(--text-primary); }
     .action-btn svg { width: 14px; height: 14px; }
 
     .empty-state {
@@ -324,7 +326,7 @@ import { ToastService } from '../../services/toast.service';
     .examples-card {
       padding: 1.25rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
     }
 
@@ -347,16 +349,24 @@ import { ToastService } from '../../services/toast.service';
     .animate-in { animation: fadeUp 0.3s ease-out; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    @media (max-width: 768px) {
-      .generator-layout { grid-template-columns: 1fr; }
+    @media (min-width: 768px) {
+      .generator-layout { grid-template-columns: 320px 1fr; }
     }
   `]
 })
 export class PassphraseComponent {
-  private readonly passphraseService = inject(PassphraseService);
+  protected readonly passphraseService = inject(PassphraseService);
   private readonly strengthService = inject(StrengthService);
   private readonly historyService = inject(HistoryService);
   private readonly toastService = inject(ToastService);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.setMetaTags({
+      title: 'Passphrase Generator',
+      description: 'Generate memorable yet secure passphrases using random word combinations. Create strong, easy-to-remember passwords with our advanced passphrase generator.',
+    });
+  }
 
   readonly config = signal<PassphraseConfig>({ wordCount: 4, separator: '-', capitalize: false, includeNumber: false });
   readonly passphrase = signal('');
@@ -387,8 +397,8 @@ export class PassphraseComponent {
     });
   }
 
-  save(): void {
-    this.historyService.add(this.passphrase(), 'Passphrase', this.strengthResult().score);
+  async save(): Promise<void> {
+    await this.historyService.add(this.passphrase(), 'Passphrase', this.strengthResult().score);
     this.toastService.show('Passphrase saved to history', 'success');
   }
 }

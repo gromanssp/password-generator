@@ -2,15 +2,17 @@ import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@a
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { StrengthService } from '../../services/strength.service';
+import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-hacking-sim',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, TranslatePipe],
   template: `
-    <div class="page-header">
-      <h2 class="page-title">Hacking Simulation</h2>
-      <p class="page-desc">See how long your password would survive different attack methods</p>
+    <div class="page-header anim-page-enter">
+      <h2 class="page-title">{{ 'page.hackingSim.title' | translate }}</h2>
+      <p class="page-desc">{{ 'page.hackingSim.desc' | translate }}</p>
     </div>
 
     <div class="sim-input-section">
@@ -19,7 +21,7 @@ import { StrengthService } from '../../services/strength.service';
         [ngModel]="password()"
         (ngModelChange)="password.set($event)"
         class="sim-input"
-        placeholder="Enter a password to simulate attacks..."
+        [placeholder]="'page.hackingSim.placeholder' | translate"
         autocomplete="off">
     </div>
 
@@ -117,20 +119,20 @@ import { StrengthService } from '../../services/strength.service';
         </div>
 
         <div class="comparison-section">
-          <h4>Comparison</h4>
+          <h4>{{ 'page.hackingSim.comparisonTitle' | translate }}</h4>
           <div class="comparison-grid">
             <div class="comparison-item weak">
-              <span class="comp-label">Weak</span>
+              <span class="comp-label">{{ 'page.hackingSim.weak' | translate }}</span>
               <code>123456</code>
               <span class="comp-time">Instant</span>
             </div>
             <div class="comparison-item medium">
-              <span class="comp-label">Medium</span>
+              <span class="comp-label">{{ 'page.hackingSim.medium' | translate }}</span>
               <code>Summer2024!</code>
               <span class="comp-time">~3 hours</span>
             </div>
             <div class="comparison-item strong">
-              <span class="comp-label">Strong</span>
+              <span class="comp-label">{{ 'page.hackingSim.strong' | translate }}</span>
               <code>P!xel#Tiger$92</code>
               <span class="comp-time">~18 years</span>
             </div>
@@ -150,7 +152,7 @@ import { StrengthService } from '../../services/strength.service';
       width: 100%;
       padding: 1rem 1.25rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--form-control-border);
       border-radius: 12px;
       color: var(--text-primary);
       font-family: 'JetBrains Mono', monospace;
@@ -165,8 +167,8 @@ import { StrengthService } from '../../services/strength.service';
     }
 
     .terminal-card {
-      background: #0d1117;
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--terminal-bg);
+      border: 1px solid var(--terminal-border);
       border-radius: 12px;
       overflow: hidden;
       margin-bottom: 1.5rem;
@@ -175,7 +177,7 @@ import { StrengthService } from '../../services/strength.service';
     .terminal-header {
       padding: 0.75rem 1rem;
       background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--terminal-border);
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -217,12 +219,12 @@ import { StrengthService } from '../../services/strength.service';
       gap: 1rem;
       padding: 1.25rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       transition: border-color 0.2s;
     }
 
-    .attack-card:hover { border-color: rgba(255,255,255,0.12); }
+    .attack-card:hover { border-color: var(--border-color-strong); }
 
     .attack-icon {
       width: 40px;
@@ -296,7 +298,7 @@ import { StrengthService } from '../../services/strength.service';
       padding: 1rem;
       background: var(--bg-surface);
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
     }
 
     .comp-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -313,7 +315,15 @@ import { StrengthService } from '../../services/strength.service';
 })
 export class HackingSimComponent {
   private readonly strengthService = inject(StrengthService);
+  private readonly seo = inject(SeoService);
   readonly password = signal('');
+
+  constructor() {
+    this.seo.setMetaTags({
+      title: 'Hacking Simulation',
+      description: 'See how long your password would survive different attack methods including dictionary, brute force, GPU cluster, and AI-assisted attacks.',
+    });
+  }
 
   result = computed(() => this.strengthService.analyze(this.password()));
 

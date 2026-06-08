@@ -2,36 +2,38 @@ import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@a
 import { FormsModule } from '@angular/forms';
 import { HistoryService, PasswordEntry } from '../../services/history.service';
 import { ToastService } from '../../services/toast.service';
+import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-history',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   template: `
-    <div class="page-header">
-      <h2 class="page-title">Password History</h2>
-      <p class="page-desc">All passwords are stored locally in your browser only</p>
+    <div class="page-header anim-page-enter">
+      <h2 class="page-title">{{ 'page.history.title' | translate }}</h2>
+      <p class="page-desc">{{ 'page.history.desc' | translate }}</p>
     </div>
 
     <div class="controls-bar">
       <div class="search-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
-        <input type="text" [(ngModel)]="searchQuery" placeholder="Search passwords..." class="search-input">
+        <input type="text" [(ngModel)]="searchQuery" [placeholder]="'page.history.searchPlaceholder' | translate" class="search-input">
       </div>
       <div class="filter-tabs">
-        <button class="filter-btn" [class.active]="filter() === 'all'" (click)="filter.set('all')">All</button>
-        <button class="filter-btn" [class.active]="filter() === 'favorites'" (click)="filter.set('favorites')">Favorites</button>
+        <button class="filter-btn" [class.active]="filter() === 'all'" (click)="filter.set('all')">{{ 'page.history.all' | translate }}</button>
+        <button class="filter-btn" [class.active]="filter() === 'favorites'" (click)="filter.set('favorites')">{{ 'page.history.favorites' | translate }}</button>
       </div>
       @if (historyService.entries().length > 0) {
-        <button class="clear-btn" (click)="clearAll()">Clear All</button>
+        <button class="clear-btn" (click)="clearAll()">{{ 'page.history.clearAll' | translate }}</button>
       }
     </div>
 
     @if (filteredEntries().length === 0) {
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p>No passwords saved yet</p>
-        <span>Generated passwords will appear here when you save them</span>
+        <p>{{ 'page.history.emptyTitle' | translate }}</p>
+        <span>{{ 'page.history.emptyDesc' | translate }}</span>
       </div>
     } @else {
       <div class="entries-list">
@@ -87,7 +89,7 @@ import { ToastService } from '../../services/toast.service';
       gap: 0.5rem;
       padding: 0.5rem 1rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid var(--border-color-strong);
       border-radius: 8px;
       flex: 1;
       min-width: 200px;
@@ -110,7 +112,7 @@ import { ToastService } from '../../services/toast.service';
     .filter-btn {
       padding: 0.375rem 0.75rem;
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid var(--border-color-strong);
       border-radius: 6px;
       color: var(--text-muted);
       font-size: 0.8rem;
@@ -150,19 +152,28 @@ import { ToastService } from '../../services/toast.service';
 
     .entry-card {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
       padding: 1rem 1.25rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 10px;
-      gap: 1rem;
+      gap: 0.75rem;
       transition: border-color 0.2s;
+      animation: fadeInUp 0.35s ease-out both;
     }
 
-    .entry-card:hover { border-color: rgba(255,255,255,0.12); }
+    .entry-card:nth-child(2) { animation-delay: 0.06s; }
+    .entry-card:nth-child(3) { animation-delay: 0.12s; }
+    .entry-card:nth-child(4) { animation-delay: 0.18s; }
+    .entry-card:nth-child(5) { animation-delay: 0.24s; }
+    .entry-card:nth-child(6) { animation-delay: 0.3s; }
+    .entry-card:nth-child(7) { animation-delay: 0.36s; }
+    .entry-card:nth-child(8) { animation-delay: 0.42s; }
 
-    .entry-main { min-width: 0; flex: 1; }
+    .entry-card:hover { border-color: var(--border-color-strong); }
+
+    .entry-main { min-width: 0; width: 100%; }
 
     .entry-password {
       margin-bottom: 0.375rem;
@@ -191,31 +202,66 @@ import { ToastService } from '../../services/toast.service';
     .entry-strength.medium { color: var(--warning); }
     .entry-strength.weak { color: var(--danger); }
 
-    .entry-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+    .entry-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+      width: 100%;
+      justify-content: flex-end;
+      border-top: 1px solid var(--border-color-subtle);
+      padding-top: 0.75rem;
+    }
 
     .icon-btn {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: none;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .icon-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+    .icon-btn:hover { background: var(--hover-bg-strong); color: var(--text-primary); }
     .icon-btn.danger:hover { color: var(--danger); background: rgba(239,68,68,0.1); }
     .icon-btn.favorited { color: var(--warning); }
-    .icon-btn svg { width: 16px; height: 16px; }
+    .icon-btn svg { width: 20px; height: 20px; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (min-width: 576px) {
+      .entry-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+      }
+      .entry-main { width: auto; }
+      .entry-actions {
+        width: auto;
+        justify-content: flex-start;
+        border-top: none;
+        padding-top: 0;
+      }
+      .icon-btn { width: 32px; height: 32px; }
+      .icon-btn svg { width: 16px; height: 16px; }
+    }
   `]
 })
 export class HistoryComponent {
   protected readonly historyService = inject(HistoryService);
   private readonly toastService = inject(ToastService);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.setMetaTags({
+      title: 'Password History',
+      description: 'View and manage your generated password history. All passwords are stored locally in your browser for maximum privacy and security.',
+    });
+  }
 
   searchQuery = '';
   filter = signal<'all' | 'favorites'>('all');
@@ -263,8 +309,8 @@ export class HistoryComponent {
     return 'weak';
   }
 
-  clearAll(): void {
-    this.historyService.clear();
+  async clearAll(): Promise<void> {
+    await this.historyService.clear();
     this.toastService.show('History cleared', 'info');
   }
 }

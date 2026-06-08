@@ -2,15 +2,17 @@ import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@a
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { StrengthService } from '../../services/strength.service';
+import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-strength',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, TranslatePipe],
   template: `
-    <div class="page-header">
-      <h2 class="page-title">Password Strength Analyzer</h2>
-      <p class="page-desc">Type or paste a password to get a detailed security analysis</p>
+    <div class="page-header anim-page-enter">
+      <h2 class="page-title">{{ 'page.strength.title' | translate }}</h2>
+      <p class="page-desc">{{ 'page.strength.desc' | translate }}</p>
     </div>
 
     <div class="analyzer-container">
@@ -21,7 +23,7 @@ import { StrengthService } from '../../services/strength.service';
             [ngModel]="password()"
             (ngModelChange)="password.set($event)"
             class="password-input"
-            placeholder="Enter a password to analyze..."
+            [placeholder]="'page.strength.placeholder' | translate"
             autocomplete="off">
           <button class="visibility-toggle" (click)="showPassword.set(!showPassword())">
             @if (showPassword()) {
@@ -44,31 +46,31 @@ import { StrengthService } from '../../services/strength.service';
               <div class="score-value">{{ result().score }}</div>
             </div>
             <div class="score-label" [class]="result().level">{{ result().label }}</div>
-            <div class="entropy-info">Entropy: {{ result().entropy | number:'1.0-0' }} bits</div>
+            <div class="entropy-info">{{ 'page.strength.entropy' | translate }} {{ result().entropy | number:'1.0-0' }} bits</div>
           </div>
 
           <div class="details-card">
-            <h4>Complexity Breakdown</h4>
+            <h4>{{ 'page.strength.complexityBreakdown' | translate }}</h4>
             <div class="complexity-items">
               <div class="complexity-item">
-                <span class="ci-label">Length</span>
-                <span class="ci-value" [class.good]="password().length >= 12">{{ password().length }} chars</span>
+                <span class="ci-label">{{ 'page.strength.length' | translate }}</span>
+                <span class="ci-value" [class.good]="password().length >= 12">{{ password().length }} {{ 'page.strength.chars' | translate }}</span>
               </div>
               <div class="complexity-item">
-                <span class="ci-label">Uppercase</span>
-                <span class="ci-value" [class.good]="hasUpper()">{{ hasUpper() ? 'Yes' : 'No' }}</span>
+                <span class="ci-label">{{ 'page.strength.uppercase' | translate }}</span>
+                <span class="ci-value" [class.good]="hasUpper()">{{ (hasUpper() ? 'page.strength.yes' : 'page.strength.no') | translate }}</span>
               </div>
               <div class="complexity-item">
-                <span class="ci-label">Lowercase</span>
-                <span class="ci-value" [class.good]="hasLower()">{{ hasLower() ? 'Yes' : 'No' }}</span>
+                <span class="ci-label">{{ 'page.strength.lowercase' | translate }}</span>
+                <span class="ci-value" [class.good]="hasLower()">{{ (hasLower() ? 'page.strength.yes' : 'page.strength.no') | translate }}</span>
               </div>
               <div class="complexity-item">
-                <span class="ci-label">Numbers</span>
-                <span class="ci-value" [class.good]="hasNumbers()">{{ hasNumbers() ? 'Yes' : 'No' }}</span>
+                <span class="ci-label">{{ 'page.strength.numbers' | translate }}</span>
+                <span class="ci-value" [class.good]="hasNumbers()">{{ (hasNumbers() ? 'page.strength.yes' : 'page.strength.no') | translate }}</span>
               </div>
               <div class="complexity-item">
-                <span class="ci-label">Symbols</span>
-                <span class="ci-value" [class.good]="hasSymbols()">{{ hasSymbols() ? 'Yes' : 'No' }}</span>
+                <span class="ci-label">{{ 'page.strength.symbols' | translate }}</span>
+                <span class="ci-value" [class.good]="hasSymbols()">{{ (hasSymbols() ? 'page.strength.yes' : 'page.strength.no') | translate }}</span>
               </div>
             </div>
           </div>
@@ -77,7 +79,7 @@ import { StrengthService } from '../../services/strength.service';
             <div class="feedback-card weaknesses">
               <h4>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01M12 2l10 18H2L12 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Weaknesses Detected
+                {{ 'page.strength.weaknesses' | translate }}
               </h4>
               <ul>
                 @for (w of result().weaknesses; track w) {
@@ -91,7 +93,7 @@ import { StrengthService } from '../../services/strength.service';
             <div class="feedback-card suggestions">
               <h4>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Suggestions
+                {{ 'page.strength.suggestions' | translate }}
               </h4>
               <ul>
                 @for (s of result().suggestions; track s) {
@@ -118,7 +120,7 @@ import { StrengthService } from '../../services/strength.service';
       width: 100%;
       padding: 1rem 3.5rem 1rem 1.25rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--form-control-border);
       border-radius: 12px;
       color: var(--text-primary);
       font-family: 'JetBrains Mono', monospace;
@@ -149,7 +151,7 @@ import { StrengthService } from '../../services/strength.service';
 
     .results-grid {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr;
       gap: 1.5rem;
     }
 
@@ -160,7 +162,7 @@ import { StrengthService } from '../../services/strength.service';
       gap: 0.75rem;
       padding: 1.5rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 16px;
     }
 
@@ -183,7 +185,7 @@ import { StrengthService } from '../../services/strength.service';
 
     .circle-bg {
       fill: none;
-      stroke: rgba(255,255,255,0.08);
+      stroke: var(--ring-bg);
       stroke-width: 2.5;
     }
 
@@ -218,7 +220,7 @@ import { StrengthService } from '../../services/strength.service';
     .details-card {
       padding: 1.5rem;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 16px;
     }
 
@@ -240,7 +242,7 @@ import { StrengthService } from '../../services/strength.service';
       justify-content: space-between;
       align-items: center;
       padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid var(--border-color-subtle);
     }
 
     .ci-label { font-size: 0.85rem; color: var(--text-secondary); }
@@ -302,13 +304,21 @@ import { StrengthService } from '../../services/strength.service';
     .animate-in { animation: fadeUp 0.3s ease-out; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    @media (max-width: 640px) {
-      .results-grid { grid-template-columns: 1fr; }
+    @media (min-width: 576px) {
+      .results-grid { grid-template-columns: auto 1fr; }
     }
   `]
 })
 export class StrengthComponent {
   private readonly strengthService = inject(StrengthService);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.setMetaTags({
+      title: 'Password Strength Analyzer',
+      description: 'Analyze your password strength in real-time. Check entropy, character diversity, and get actionable suggestions to improve your password security.',
+    });
+  }
 
   readonly password = signal('');
   readonly showPassword = signal(false);

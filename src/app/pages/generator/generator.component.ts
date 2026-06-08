@@ -4,18 +4,20 @@ import { PasswordService, PasswordConfig, PasswordContext } from '../../services
 import { StrengthService } from '../../services/strength.service';
 import { HistoryService } from '../../services/history.service';
 import { ToastService } from '../../services/toast.service';
+import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-generator',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   template: `
-    <div class="page-header">
-      <h2 class="page-title">Password Generator</h2>
-      <p class="page-desc">Choose a context and generate secure passwords instantly</p>
+    <div class="page-header anim-page-enter">
+      <h2 class="page-title">{{ 'page.generator.title' | translate }}</h2>
+      <p class="page-desc">{{ 'page.generator.desc' | translate }}</p>
     </div>
 
-    <section class="context-grid">
+    <section class="context-grid anim-stagger-grid">
       @for (ctx of passwordService.contexts; track ctx.id) {
         <button
           class="context-card"
@@ -90,8 +92,8 @@ import { ToastService } from '../../services/toast.service';
               }
             }
           </div>
-          <span class="context-name">{{ ctx.name }}</span>
-          <span class="context-desc">{{ ctx.description }}</span>
+          <span class="context-name">{{ ('page.generator.context.' + ctx.id + '.name') | translate }}</span>
+          <span class="context-desc">{{ ('page.generator.context.' + ctx.id + '.desc') | translate }}</span>
         </button>
       }
     </section>
@@ -99,13 +101,13 @@ import { ToastService } from '../../services/toast.service';
     @if (selectedContext()) {
       <section class="config-panel animate-in">
         <div class="config-header">
-          <h3>{{ selectedContext()!.name }} Settings</h3>
-          <span class="config-badge">{{ config().length }} chars</span>
+          <h3>{{ ('page.generator.context.' + selectedContext()!.id + '.name') | translate }} {{ 'page.generator.settings' | translate }}</h3>
+          <span class="config-badge">{{ config().length }} {{ 'page.generator.chars' | translate }}</span>
         </div>
 
         <div class="config-body">
           <div class="slider-group">
-            <label>Password Length: <strong>{{ config().length }}</strong></label>
+            <label>{{ 'page.generator.passwordLength' | translate }} <strong>{{ config().length }}</strong></label>
             <input type="range" [min]="4" [max]="64" [ngModel]="config().length" (ngModelChange)="updateLength($event)" class="range-input">
             <div class="range-labels"><span>4</span><span>64</span></div>
           </div>
@@ -114,38 +116,38 @@ import { ToastService } from '../../services/toast.service';
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().uppercase" (ngModelChange)="updateConfig('uppercase', $event)">
               <span class="toggle-switch"></span>
-              <span>Uppercase (A-Z)</span>
+              <span>{{ 'page.generator.uppercase' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().lowercase" (ngModelChange)="updateConfig('lowercase', $event)">
               <span class="toggle-switch"></span>
-              <span>Lowercase (a-z)</span>
+              <span>{{ 'page.generator.lowercase' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().numbers" (ngModelChange)="updateConfig('numbers', $event)">
               <span class="toggle-switch"></span>
-              <span>Numbers (0-9)</span>
+              <span>{{ 'page.generator.numbers' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().symbols" (ngModelChange)="updateConfig('symbols', $event)">
               <span class="toggle-switch"></span>
-              <span>Symbols (!&#64;#$%)</span>
+              <span>{{ 'page.generator.symbols' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().excludeAmbiguous" (ngModelChange)="updateConfig('excludeAmbiguous', $event)">
               <span class="toggle-switch"></span>
-              <span>Exclude Ambiguous</span>
+              <span>{{ 'page.generator.excludeAmbiguous' | translate }}</span>
             </label>
             <label class="toggle-item">
               <input type="checkbox" [ngModel]="config().excludeSimilar" (ngModelChange)="updateConfig('excludeSimilar', $event)">
               <span class="toggle-switch"></span>
-              <span>Exclude Similar</span>
+              <span>{{ 'page.generator.excludeSimilar' | translate }}</span>
             </label>
           </div>
 
           <button class="btn-generate" (click)="generate()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Generate Password
+            {{ 'page.generator.generatePassword' | translate }}
           </button>
         </div>
       </section>
@@ -154,7 +156,7 @@ import { ToastService } from '../../services/toast.service';
     @if (generatedPassword()) {
       <section class="result-card animate-in">
         <div class="result-header">
-          <span class="result-label">Generated Password</span>
+          <span class="result-label">{{ 'page.generator.generatedPassword' | translate }}</span>
           <div class="strength-badge" [class]="strengthResult().level">{{ strengthResult().label }} — {{ strengthResult().score }}/100</div>
         </div>
         <div class="result-password">
@@ -166,15 +168,15 @@ import { ToastService } from '../../services/toast.service';
         <div class="result-actions">
           <button class="action-btn" (click)="copy()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-            Copy
+            {{ 'page.generator.copy' | translate }}
           </button>
           <button class="action-btn" (click)="generate()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Regenerate
+            {{ 'page.generator.regenerate' | translate }}
           </button>
           <button class="action-btn" (click)="saveToHistory()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Save
+            {{ 'page.generator.save' | translate }}
           </button>
         </div>
       </section>
@@ -182,12 +184,12 @@ import { ToastService } from '../../services/toast.service';
   `,
   styles: [`
     .page-header { margin-bottom: 2rem; }
-    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .page-desc { color: var(--text-secondary); font-size: 0.95rem; }
+    .page-title { font-size: 1.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .page-desc { color: var(--text-secondary); font-size: 1rem; }
 
     .context-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.75rem;
       margin-bottom: 2rem;
     }
@@ -198,8 +200,9 @@ import { ToastService } from '../../services/toast.service';
       align-items: center;
       gap: 0.5rem;
       padding: 1.25rem 1rem;
+      min-height: 130px;
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -210,6 +213,7 @@ import { ToastService } from '../../services/toast.service';
       border-color: rgba(99,102,241,0.3);
       background: rgba(99,102,241,0.05);
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99,102,241,0.12);
     }
 
     .context-card.selected {
@@ -219,15 +223,15 @@ import { ToastService } from '../../services/toast.service';
     }
 
     .context-icon {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .context-icon svg { width: 22px; height: 22px; }
+    .context-icon svg { width: 24px; height: 24px; }
 
     .icon-banking { background: rgba(16, 185, 129, 0.12); color: var(--success); }
     .icon-social { background: rgba(99, 102, 241, 0.12); color: var(--accent-primary); }
@@ -242,12 +246,12 @@ import { ToastService } from '../../services/toast.service';
       color: var(--accent-primary);
     }
 
-    .context-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
-    .context-desc { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
+    .context-name { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+    .context-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; }
 
     .config-panel {
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 16px;
       overflow: hidden;
       margin-bottom: 1.5rem;
@@ -255,13 +259,13 @@ import { ToastService } from '../../services/toast.service';
 
     .config-header {
       padding: 1rem 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .config-header h3 { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+    .config-header h3 { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); }
 
     .config-badge {
       padding: 0.25rem 0.75rem;
@@ -289,7 +293,7 @@ import { ToastService } from '../../services/toast.service';
       width: 100%;
       height: 6px;
       appearance: none;
-      background: rgba(255,255,255,0.1);
+      background: var(--border-color-strong);
       border-radius: 3px;
       outline: none;
       cursor: pointer;
@@ -308,14 +312,14 @@ import { ToastService } from '../../services/toast.service';
     .range-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 0.25rem;
     }
 
     .toggles-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: 1fr;
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
@@ -325,7 +329,7 @@ import { ToastService } from '../../services/toast.service';
       align-items: center;
       gap: 0.75rem;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
     }
 
@@ -334,7 +338,7 @@ import { ToastService } from '../../services/toast.service';
     .toggle-switch {
       width: 36px;
       height: 20px;
-      background: rgba(255,255,255,0.1);
+      background: var(--border-color-strong);
       border-radius: 10px;
       position: relative;
       transition: background 0.2s;
@@ -363,11 +367,13 @@ import { ToastService } from '../../services/toast.service';
       gap: 0.75rem;
       width: 100%;
       padding: 0.875rem;
+      padding: 0.875rem 1.5rem;
+      min-height: 48px;
       background: var(--accent-gradient);
       border: none;
       border-radius: 10px;
       color: white;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -379,11 +385,15 @@ import { ToastService } from '../../services/toast.service';
       box-shadow: 0 8px 24px rgba(99,102,241,0.35);
     }
 
+    .btn-generate:active {
+      transform: scale(0.98);
+    }
+
     .btn-generate svg { width: 20px; height: 20px; }
 
     .result-card {
       background: var(--bg-surface);
-      border: 1px solid rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
       border-radius: 16px;
       padding: 1.5rem;
     }
@@ -395,12 +405,12 @@ import { ToastService } from '../../services/toast.service';
       margin-bottom: 1rem;
     }
 
-    .result-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+    .result-label { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
 
     .strength-badge {
       padding: 0.25rem 0.75rem;
       border-radius: 9999px;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 600;
     }
 
@@ -420,7 +430,7 @@ import { ToastService } from '../../services/toast.service';
 
     .result-password code {
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--success);
       word-break: break-all;
       letter-spacing: 0.5px;
@@ -428,7 +438,7 @@ import { ToastService } from '../../services/toast.service';
 
     .strength-bar {
       height: 4px;
-      background: rgba(255,255,255,0.08);
+      background: var(--hover-bg-strong);
       border-radius: 2px;
       margin-bottom: 1.25rem;
       overflow: hidden;
@@ -457,11 +467,11 @@ import { ToastService } from '../../services/toast.service';
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color-strong);
       border-radius: 8px;
       color: var(--text-secondary);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
@@ -469,7 +479,7 @@ import { ToastService } from '../../services/toast.service';
     }
 
     .action-btn:hover {
-      background: rgba(255,255,255,0.1);
+      background: var(--hover-bg-strong);
       color: var(--text-primary);
       border-color: rgba(255,255,255,0.2);
     }
@@ -483,9 +493,14 @@ import { ToastService } from '../../services/toast.service';
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 640px) {
-      .context-grid { grid-template-columns: repeat(2, 1fr); }
-      .toggles-grid { grid-template-columns: 1fr; }
+    @media (min-width: 576px) {
+      .context-grid { grid-template-columns: repeat(3, 1fr); }
+      .toggles-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1024px) {
+      .context-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .toggles-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     }
   `]
 })
@@ -494,6 +509,14 @@ export class GeneratorComponent {
   private readonly strengthService = inject(StrengthService);
   private readonly historyService = inject(HistoryService);
   private readonly toastService = inject(ToastService);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.setMetaTags({
+      title: 'Password Generator',
+      description: 'Generate secure, customizable passwords for any context. Choose from banking, social media, work, and more with our advanced password generator.',
+    });
+  }
 
   readonly selectedContext = signal<PasswordContext | null>(null);
   readonly config = signal<PasswordConfig>({
@@ -527,9 +550,9 @@ export class GeneratorComponent {
     });
   }
 
-  saveToHistory(): void {
+  async saveToHistory(): Promise<void> {
     const ctx = this.selectedContext();
-    this.historyService.add(
+    await this.historyService.add(
       this.generatedPassword(),
       ctx?.name ?? 'Custom',
       this.strengthResult().score
